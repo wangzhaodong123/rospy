@@ -1,34 +1,13 @@
 import logging
 
-
-##definitions
-def init_node(name, argv=None, anonymous=False, log_level=None, disable_rostime=False, disable_rosout=False, disable_signals=False, xmlrpc_port=0, tcpros_port=0):
-  print(anonymous)
-
-def Publisher(name, data_class):
-  print("cde")
-  print("ced")
-  
-
-def Rate(self, hz, reset=False):
-  return 2 
-
-def get_time():
-  return 3
-
-def is_shutdown():
-  print("abc")
-
-
-
-
-    
+def configlogging(level_=logging.DEBUG):
+  logging.basicConfig(filemode='w',datafmt='%(asctime)s', format = '%(asctime)s - %(name)s - [%(levelname)s] - %(message)s',level=level_)
 
 def _base_logger(msg, args, kwargs, throttle=None,
                  throttle_identical=False, level=None, once=False):
-
     rospy_logger = logging.getLogger('rosout')
     name = kwargs.pop('logger_name', None)
+    
     if name:
         rospy_logger = rospy_logger.getChild(name)
     logfunc = getattr(rospy_logger, level)
@@ -49,51 +28,22 @@ def _base_logger(msg, args, kwargs, throttle=None,
         if _logging_throttle(caller_id, throttle):
             logfunc(msg, *args, **kwargs)
     else:
+        # call logging
         logfunc(msg, *args, **kwargs)
     return msg
 
+# info interface
+def logdebug(msg, *args, **kwargs):
+    _base_logger(msg, args, kwargs, level='debug')
 
 def loginfo(msg, *args, **kwargs):
-   _base_logger(msg, args, kwargs, level='info')
-   
-  
+    _base_logger(msg, args, kwargs, level='info')
 
+def logwarn(msg, *args, **kwargs):
+    _base_logger(msg, args, kwargs, level='warn')
 
-def publish(self, *args, **kwds):
-  return 3
+def logerr(msg, *args, **kwargs):
+    _base_logger(msg, args, kwargs, level='error')
 
-def sleep():
-  return None
-
-import logging
-
-##definitions
-def init_node(name, argv=None, anonymous=False, log_level=None, disable_rostime=False, disable_rosout=False, disable_signals=False, xmlrpc_port=0, tcpros_port=0):
-  print(anonymous)
-
-def Publisher(name, data_class):
-  print("cde")
-
-def Rate(self, hz, reset=False):
-  return 2 
-
-def get_time():
-  return 3
-
-def is_shutdown():
-  print("abc")
-
-
-
-
-    
-
-
-
-def publish(self, *args, **kwds):
-  return 3
-
-def sleep():
-  return None
-
-
+def logfatal(msg, *args, **kwargs):
+    _base_logger(msg, args, kwargs, level='critical')
